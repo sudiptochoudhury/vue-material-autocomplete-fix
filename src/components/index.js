@@ -1,6 +1,7 @@
 import MdApp from './MdApp'
 import MdBadge from './MdBadge'
 import MdAutocomplete from './MdAutocomplete'
+import MdAutocomplete2 from './MdAutocomplete2'
 import MdAvatar from './MdAvatar'
 import MdBottomBar from './MdBottomBar'
 import MdButton from './MdButton'
@@ -41,6 +42,7 @@ export {
   MdBadge,
   MdApp,
   MdAutocomplete,
+  MdAutocomplete2,
   MdAvatar,
   MdBottomBar,
   MdButton,

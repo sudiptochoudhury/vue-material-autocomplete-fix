@@ -10,6 +10,11 @@ export const routes = [
     page: 'Components/Autocomplete/Autocomplete.vue'
   },
   {
+    path: '/components/autocomplete2',
+    name: 'components/autocomplete2',
+    page: 'Components/Autocomplete2/Autocomplete.vue'
+  },
+  {
     path: '/components/progress',
     name: 'components/progress',
     redirect: '/components/progress-bar'

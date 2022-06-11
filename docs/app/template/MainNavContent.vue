@@ -60,6 +60,7 @@
       <router-link to="/components/form">{{ $t('pages.form.title') }}</router-link>
       <div class="main-nav-level">
         <router-link to="/components/autocomplete">{{ $t('pages.autocomplete.title') }}</router-link>
+        <router-link to="/components/autocomplete2">{{ $t('pages.autocomplete.title') }}</router-link>
         <router-link to="/components/checkbox">{{ $t('pages.checkbox.title') }}</router-link>
         <router-link to="/components/chips">{{ $t('pages.chips.title') }}</router-link>
         <router-link to="/components/file">{{ $t('pages.file.title') }}</router-link>
