@@ -1,5 +1,5 @@
 /*!
- * vue-material-autocomplete-fix v1.0.0-beta-15
+ * vue-material-autocomplete-fix v1.0.0-beta-15.03
  * Made with <3 by sudiptochoudhury 2022
  * Released under the MIT License.
  */
@@ -3827,7 +3827,8 @@ exports.default = {
       if (canOpen) {
         this.showOptions();
       }
-      if (this.isAlphaNumSymPressed(e.keyCode)) {
+      var deleteKeys = ['Delete', 'Backspace'];
+      if (this.isAlphaNumSymPressed(e.keyCode) || deleteKeys.includes(e.key)) {
         this.$nextTick(function () {
           _this4.allowFilter = true;
         });
@@ -3850,7 +3851,7 @@ exports.default = {
     canOpenMenu: function canOpenMenu(e) {
       if (!this.showMenu || e) {
         var key = e.key;
-        var openAlways = ['ArrowDown', 'ArrowUp'];
+        var openAlways = ['ArrowDown', 'ArrowUp', 'Delete', 'Backspace'];
         return openAlways.includes(key) || this.canOpenOnBlank(key) || this.mdOpenOnInput && this.isAlphaNumSymPressed(e.keyCode);
       }
     },

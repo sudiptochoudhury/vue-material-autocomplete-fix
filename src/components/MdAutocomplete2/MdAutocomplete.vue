@@ -230,7 +230,8 @@
         if (canOpen) {
           this.showOptions()
         }
-        if (this.isAlphaNumSymPressed(e.keyCode)) {
+        const deleteKeys = ['Delete', 'Backspace']
+        if (this.isAlphaNumSymPressed(e.keyCode) || deleteKeys.includes(e.key)) {
           this.$nextTick(() => {
             this.allowFilter = true
           })
@@ -255,7 +256,7 @@
       canOpenMenu (e) {
         if (!this.showMenu || e) {
           const key = e.key
-          const openAlways = ['ArrowDown', 'ArrowUp']
+          const openAlways = ['ArrowDown', 'ArrowUp', 'Delete', 'Backspace']
           return openAlways.includes(key) ||
             this.canOpenOnBlank(key) ||
             (this.mdOpenOnInput && this.isAlphaNumSymPressed(e.keyCode))

@@ -1,3 +1,12 @@
+<a name="v1.0.0-beta-15.03"></a>
+# [v1.0.0-beta-15.03](https://github.com/sudiptochoudhury/vue-material-autocomplete-fix/compare/v1.0.0-beta-15...v1.0.0-beta-15.03) (2022-06-12)
+
+### Bug Fixes
+
+* Fix issue with `Delete` and `Backspace` not opening the popup.  
+* Fix issue with filtering not starting after `mdSkipFilterOnOpen` on pressing `Delete` and `Backspace`.  
+
+
 <a name="v1.0.0-beta-15.02"></a>
 # [v1.0.0-beta-15.02](https://github.com/sudiptochoudhury/vue-material-autocomplete-fix/compare/v1.0.0-beta-15...v1.0.0-beta-15.02) (2022-06-12)
 

@@ -19,9 +19,9 @@ This package adds a new component `MdAutocomplete2` and extended version of
 * By default, the the top-most item of the suggested results is highlighted.
 * On pressing `Enter` or `Tab`, the highlighted items is selected and populated in the input field. The suggestion results popup hides.
 * While the suggestion popup is not showing, it can be opened 
-  * By pressing `ArrowUp` and `ArrowDown` keys, while the input field is in focus.
+  * By pressing `ArrowUp` and `ArrowDown`, `Delete`, `Backspace` keys, while the input field is in focus.
   * By pressing `Enter` while the input field is in focus, provided that the input field is empty.
-  * By starting typing in the empty input field (can be disabled setting `mdOpenOnInput` prop to `false`) 
+  * By starting typing in the input field (can be disabled setting `mdOpenOnInput` prop to `false`). 
 * In case the suggestion popup has no result or is empty, a default empty message "No data available" is shown (without defining `md-autocomplete-empty` slot). 
 The value can be modified using `mdEmptyText` prop.
 
