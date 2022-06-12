@@ -10,24 +10,27 @@
         :placeholder="mdInputPlaceholder"
         @focus.stop="openOnFocus"
         @blur="hideOptions"
+        @keyup="onKeyPress"
         @input="onInput"
         @click.stop.prevent="openOnFocus" />
 
-      <md-menu-content2 :class="contentClasses" v-show="hasScopedEmptySlot || hasFilteredItems">
+      <md-menu-content2 :class="contentClasses" v-show="hasScopedEmptySlot || hasFilteredItems" @click-blank="deSelectItem()">
         <div class="md-autocomplete-loading" v-if="isPromisePending">
           <md-progress-spinner :md-diameter="40" :md-stroke="4" md-mode="indeterminate" />
         </div>
 
         <div class="md-autocomplete-items" v-if="hasFilteredItems">
-          <md-menu-item2 v-for="(item, index) in getOptions()" :key="index" @click="selectItem(item, $event)">
+          <md-menu-item2 v-for="(item, index) in getOptions()" :key="index" @click="selectItem(item, $event)" :initiallyHighlighted="isSelected(item, index)">
             <slot name="md-autocomplete-item" :item="item" :term="searchTerm" v-if="$scopedSlots['md-autocomplete-item']" />
             <template v-else>{{ item }}</template>
           </md-menu-item2>
         </div>
 
-        <md-menu-item2 v-else-if="hasScopedEmptySlot">
+        <md-menu-item2 disabled v-else-if="hasScopedEmptySlot">
           <div class="md-autocomplete-empty">
-            <slot name="md-autocomplete-empty" :term="searchTerm" />
+            <slot name="md-autocomplete-empty" :term="searchTerm">
+              {{ mdEmptyText }}
+            </slot>
           </div>
         </md-menu-item2>
       </md-menu-content2>
@@ -62,6 +65,10 @@
         type: Boolean,
         default: true
       },
+      mdOpenOnInput: {
+        type: Boolean,
+        default: true
+      },
       mdFuzzySearch: {
         type: Boolean,
         default: true
@@ -73,11 +80,24 @@
       mdInputName: String,
       mdInputId: String,
       mdInputMaxlength: [String, Number],
-      mdInputPlaceholder: [String, Number]
+      mdInputPlaceholder: [String, Number],
+      mdEmptyText: {
+        type: [String, Number],
+        default: 'No data available'
+      },
+      mdCleanEmptyOnEnter: {
+        type: Boolean,
+        default: true
+      },
+      mdSkipFilterOnOpen: {
+        type: Boolean,
+        default: true
+      },
     },
     data () {
       return {
         searchTerm: this.value,
+        allowFilter: !this.mdSkipFilterOnOpen,
         showMenu: false,
         triggerPopover: false,
         isPromisePending: false,
@@ -99,7 +119,7 @@
         }
       },
       shouldFilter () {
-        return this.mdOptions[0] && this.searchTerm
+        return this.allowFilter && this.mdOptions[0] && this.searchTerm
       },
       filteredStaticOptions () {
         if (this.isPromise(this.mdOptions)) {
@@ -122,7 +142,7 @@
         return this.filteredStaticOptions.length > 0 || this.filteredAsyncOptions.length > 0
       },
       hasScopedEmptySlot () {
-        return this.$scopedSlots['md-autocomplete-empty']
+        return this.mdEmptyText || this.$scopedSlots['md-autocomplete-empty']
       }
     },
     watch: {
@@ -142,6 +162,12 @@
 
       value (val) {
         this.searchTerm = val
+      },
+
+      showMenu (val) {
+        if (this.mdSkipFilterOnOpen) {
+          this.allowFilter = false
+        }
       }
     },
     methods: {
@@ -156,8 +182,11 @@
         return isPromise(obj)
       },
       matchText (item) {
-        const target = item.toLowerCase()
-        const search = this.searchTerm.toLowerCase()
+        const target = item && item.toLowerCase()
+        const search = this.searchTerm && this.searchTerm.toLowerCase()
+        if (!target || !search) {
+          return false
+        }
 
         if (this.mdFuzzySearch) {
           return fuzzy(search, target)
@@ -196,6 +225,42 @@
           this.$emit('md-changed', this.searchTerm)
         }
       },
+      onKeyPress (e) {
+        const canOpen = this.canOpenMenu(e)
+        if (canOpen) {
+          this.showOptions()
+        }
+        if (this.isAlphaNumSymPressed(e.keyCode)) {
+          this.$nextTick(() => {
+            this.allowFilter = true
+          })
+        }
+      },
+      isAlphaNumSymPressed (keyCode) {
+        const openCodes = [
+          226, 173, [186, 223], [169, 171], [160, 165], [96, 111], [48, 90]
+        ]
+
+        return openCodes.some(code => {
+          if (typeof code === 'number') {
+            return keyCode === code
+          }
+          return keyCode >= code[0] && keyCode <= code[1]
+        })
+      },
+      canOpenOnBlank (key) {
+        const openOnBlankFor = ['Enter']
+        return openOnBlankFor.includes(key) && !this.searchTerm
+      },
+      canOpenMenu (e) {
+        if (!this.showMenu || e) {
+          const key = e.key
+          const openAlways = ['ArrowDown', 'ArrowUp']
+          return openAlways.includes(key) ||
+            this.canOpenOnBlank(key) ||
+            (this.mdOpenOnInput && this.isAlphaNumSymPressed(e.keyCode))
+        }
+      },
       showOptions () {
         if (this.showMenu) {
           return false
@@ -220,6 +285,23 @@
         this.$emit('input', item)
         this.$emit('md-selected', item)
         this.hideOptions()
+      },
+      deSelectItem () {
+        this.searchTerm = ''
+        this.$emit('input', '')
+        this.$emit('md-selected', '')
+        this.showMenu = false
+        this.hideOptions()
+      },
+      isSelected (item) {
+        if (typeof item === 'string') {
+          return this.matchText(item)
+        } else if (typeof item === 'object') {
+          const values = Object.values(item)
+          return values.some(part => {
+            return this.isSelected(part)
+          })
+        }
       }
     }
   }

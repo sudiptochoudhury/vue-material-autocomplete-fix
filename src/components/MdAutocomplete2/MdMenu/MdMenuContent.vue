@@ -6,7 +6,7 @@
         :style="menuStyles"
         ref="menu">
         <div class="md-menu-content-container md-scrollbar" :class="$mdActiveTheme" ref="container">
-          <md-list :class="listClasses" v-bind="filteredAttrs">
+          <md-list :class="listClasses" v-bind="filteredAttrs" ref="list">
             <slot />
           </md-list>
         </div>
@@ -37,7 +37,7 @@
     },
     inject: ['MdMenu'],
     data: () => ({
-      highlightIndex: -1,
+      highlightIndex: 0,
       didMount: false,
       highlightItems: [],
       popperSettings: null,
@@ -121,56 +121,66 @@
       setInitialHighlightIndex () {
         this.setHighlightItems()
         this.highlightItems.forEach((item, index) => {
-          if (item.classList.contains('md-selected')) {
-            this.highlightIndex = index - 1
+          if (item.highlighted) {
+            this.highlightIndex = index
           }
         })
+        this.setHighlight()
+      },
+      getListComponents () {
+        const list = this.$refs.list || {}
+        return list.$children || []
+      },
+      getAvailableItems () {
+        return this.getListComponents().filter(item => !item.disabled && !item.isDefaultListItem)
+      },
+      getAvailableItemsCount () {
+        return this.getAvailableItems().length
       },
       setHighlightItems () {
-        if (this.$el.querySelectorAll) {
-          const items = this.$el.querySelectorAll('.md-list-item-container:not(.md-list-item-default):not([disabled])')
-
-          this.highlightItems = Array.from(items)
-        }
+        this.highlightItems = this.getAvailableItems()
       },
-      setHighlight (direction) {
+      setHighlight (direction = 0) {
+        let nextIndex = 0
         this.setHighlightItems()
-
-        if (this.highlightItems.length) {
-          if (direction === 'down') {
-            if (this.highlightIndex === this.highlightItems.length - 1) {
-              this.highlightIndex = 0
-            } else {
-              this.highlightIndex++
-            }
-          } else {
-            if (this.highlightIndex === 0) {
-              this.highlightIndex = this.highlightItems.length - 1
-            } else {
-              this.highlightIndex--
-            }
-          }
-
-          this.clearAllHighlights()
-          this.setItemHighlight()
+        const count = this.getAvailableItemsCount()
+        if (!count) {
+          nextIndex = null
         }
+        if (count) {
+          const index = this.highlightIndex
+          nextIndex = Math.abs((index + count) + direction) % count
+          this.highlightIndex = nextIndex
+        }
+        if (!direction) {
+          if (count && nextIndex >= count) {
+            nextIndex = 0
+          }
+        }
+        this.highlightIndex = nextIndex
+        this.clearAllHighlights()
+        this.setItemHighlight()
       },
       clearAllHighlights () {
         this.highlightItems.forEach(item => {
-          item.parentNode.__vue__.highlighted = false
+          item.highlighted = false
+          //item.parentNode.__vue__.highlighted = false
         })
       },
       setItemHighlight () {
         if (this.highlightedItem) {
-          this.highlightedItem.parentNode.__vue__.highlighted = true
+          this.highlightedItem.highlighted = true
+          //this.highlightedItem.parentNode.__vue__.highlighted = true
           if (this.$parent.$parent.setOffsets) {
-            this.$parent.$parent.setOffsets(this.highlightedItem.parentNode)
+            this.$parent.$parent.setOffsets(this.highlightedItem.$el)
           }
         }
       },
       setSelection () {
-        if (this.highlightedItem) {
-          this.highlightedItem.parentNode.click()
+        if (this.getAvailableItemsCount() && this.highlightedItem) {
+          this.highlightedItem.$el.click()
+        } else {
+          this.$emit('click-blank')
         }
       },
       onEsc () {
@@ -213,29 +223,41 @@
         }
       },
       createKeydownListener () {
+        window.addEventListener('keyup', this.keyUpListener)
         window.addEventListener('keydown', this.keyNavigation)
       },
       destroyKeyDownListener () {
+        window.removeEventListener('keyup', this.keyUpListener)
         window.removeEventListener('keydown', this.keyNavigation)
       },
+      keyUpListener (event) {
+        if (!this.MdMenu.active) {
+          return
+        }
+        const ignore = ['ArrowUp', 'ArrowDown', 'Enter', 'Space', 'Tab']
+        if (!ignore.includes(event.key)) {
+          this.setHighlight()
+        }
+      },
       keyNavigation (event) {
+        if (!this.MdMenu.active) {
+          return
+        }
+        const key = event.key
+        const selectOn = ['Enter', 'Tab', 'Space']
+        if (selectOn.includes(key)) {
+          return this.setSelection()
+        }
+
         switch (event.key) {
         case 'ArrowUp':
           event.preventDefault()
-          this.setHighlight('up')
+          this.setHighlight(-1)
           break
 
         case 'ArrowDown':
           event.preventDefault()
-          this.setHighlight('down')
-          break
-
-        case 'Enter':
-          this.setSelection()
-          break
-
-        case 'Space':
-          this.setSelection()
+          this.setHighlight(1)
           break
 
         case 'Escape':

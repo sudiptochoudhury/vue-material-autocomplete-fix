@@ -12,12 +12,18 @@
   export default new MdComponent({
     name: 'MdMenuItem2',
     props: {
-      disabled: Boolean
+      disabled: Boolean,
+      initiallyHighlighted: {
+        type: Boolean,
+        default: false
+      }
     },
     inject: ['MdMenu'],
-    data: () => ({
-      highlighted: false
-    }),
+    data () {
+      return {
+        highlighted: this.initiallyHighlighted
+      }
+    },
     computed: {
       itemClasses () {
         return {
