@@ -49,7 +49,7 @@ Import or require Vue and Vue Material in your code:
 
 ``` javascript
 import Vue from 'vue'
-import VueMaterial from 'vue-material'
+import VueMaterial from 'vue-material-autocomplete-fix'
 import 'vue-material/dist/vue-material.min.css'
 
 Vue.use(VueMaterial)
@@ -59,7 +59,7 @@ Or use individual components:
 
 ``` javascript
 import Vue from 'vue'
-import { MdButton, MdContent, MdTabs } from 'vue-material/dist/components'
+import { MdButton, MdContent, MdTabs } from 'vue-material-autocomplete-fix/dist/components'
 import 'vue-material/dist/vue-material.min.css'
 
 Vue.use(MdButton)
