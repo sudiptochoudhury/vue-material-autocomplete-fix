@@ -1,46 +1,56 @@
-<p align="center">
-  <a href="https://www.creative-tim.com/vuematerial" target="_blank">
-    <img width="150" src="https://www.creative-tim.com/vuematerial/assets/logo-color.png">
-  </a>
-</p>
+# vue-material-autocomplete-fix
 
-<p align="center">Material Design for Vue.js</p>
+---
 
-<p align="center">
-  <a href="https://travis-ci.org/vuematerial/vue-material">
-    <img src="https://travis-ci.org/vuematerial/vue-material.svg?branch=master" alt="Build Status">
-  </a>
+This is an extended version of [vue-material]("https://github.com/vuematerial/).
+Everything is same as is from `vue-material`.
+This package adds a new component `MdAutocomplete2` and extended version of
+`MdAutocomplete` with a number of fixes and new features.
 
-  <a href="https://www.npmjs.com/package/vue-material">
-    <img src="https://img.shields.io/npm/dt/vue-material.svg" alt="Downloads">
-  </a>
+## `MdAutocomplete2`
 
-  <a href="https://www.npmjs.com/package/vue-material">
-    <img src="https://img.shields.io/npm/l/vue-material.svg" alt="License">
-  </a>
+### New features and fixes
 
-  <a href="https://discord.gg/vuematerial">
-    <img src="https://img.shields.io/discord/379653048798281729.svg?logo=discord&colorB=7289DA" alt="Chat">
-  </a>
-</p>
+#### Better navigation and selection using keyboard
 
-Vue Material is Simple, lightweight and built exactly according to the Google <a href="http://material.google.com" target="_blank">Material Design</a> specs
+* Fix keyboard `ArrowUp` and `ArrowDown` navigation.
+* By default, the the top-most item of the suggested results is highlighted.
+* On pressing `Enter` or `Tab`, the highlighted items is selected and populated in the input field. The suggestion results popup hides.
+* While the suggestion popup is not showing, it can be opened 
+  * By pressing `ArrowUp` and `ArrowDown` keys, while the input field is in focus.
+  * By pressing `Enter` while the input field is in focus, provided that the input field is empty.
+  * By starting typing in the empty input field (can be disabled setting `mdOpenOnInput` prop to `false`) 
+* In case the suggestion popup has no result or is empty, a default empty message "No data available" is shown (without defining `md-autocomplete-empty` slot). 
+The value can be modified using `mdEmptyText` prop.
 
-Build well-designed apps that can fit on every screen with support to all modern Web Browsers with dynamic themes, components on demand and all with an ease-to-use API
+#### Strict Mode
 
-## Demo and Documentation
+* In case the suggestion popup has no result or is empty, but the input field has a value in it, which may not be the desired input value, 
+it will be cleaned pressing `Enter` or `Tab`. This mode can be disabled setting `mdCleanEmptyOnEnter` prop to `false`.
 
-<a href="https://www.creative-tim.com/vuematerial" target="_blank">Documentation & demos</a>
+#### Show all results at first
+* By default, when the suggestion popup opens and there is already a value in the input field, the suggestion result for once, does not  
+filter based on the input field's value. It shows all the values. The filtering starts in case the input value changes. 
+This can be disabled using `mdSkipFilterOnOpen` prop to `false`.
 
-<a href="https://github.com/vuematerial/examples" target="_blank">Examples</a>
+
+### New props
+
+| Name                  | Type    | Default             | Description                                                                                                                                                      |
+|-----------------------|---------|---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `mdEmptyText`         | String  | "No data available" | Shows this message as default when there is no/empty suggested result.                                                                                           |
+| `mdCleanEmptyOnEnter` | Boolean | true                | When the suggested result is empty, and Enter is pressed, the input field is cleaned. This can be disabled setting the value to `false`.                         |
+| `mdOpenOnInput`       | Boolean | true                | This adds additional feature along with `mdOpenOnFocus`. It allows to open the suggested results popup, in case it's closed when typing in the input box starts. |
+| `mdSkipFilterOnOpen`  | Boolean | true                | This allows to show all the suggested items in the popup when the suggested popup is open again.                                                                 |
+
 
 ## Installation and Usage
 
 Install Vue Material through npm or yarn
 
 ``` bash
-npm install vue-material --save
-yarn add vue-material
+npm install vue-material-autocomplete-fix --save
+yarn add vue-material-autocomplete-fix
 ```
 
 <small>* Others package managers like JSPM and Bower are not supported yet.</small>
@@ -50,7 +60,7 @@ Import or require Vue and Vue Material in your code:
 ``` javascript
 import Vue from 'vue'
 import VueMaterial from 'vue-material-autocomplete-fix'
-import 'vue-material/dist/vue-material.min.css'
+import 'vue-material-autocomplete-fix/dist/vue-material.min.css'
 
 Vue.use(VueMaterial)
 ```
@@ -60,62 +70,12 @@ Or use individual components:
 ``` javascript
 import Vue from 'vue'
 import { MdButton, MdContent, MdTabs } from 'vue-material-autocomplete-fix/dist/components'
-import 'vue-material/dist/vue-material.min.css'
+import 'vue-material-autocomplete-fix/dist/vue-material.min.css'
 
 Vue.use(MdButton)
 Vue.use(MdContent)
 Vue.use(MdTabs)
 ```
-
-Alternatively you can <a href="https://github.com/vuematerial/vue-material/archive/master.zip" target="_blank" rel="noopener">download</a> and reference the script and the stylesheet in your HTML:
-
-``` html
-<link rel="stylesheet" href="path/to/vue-material.css">
-<script src="path/to/vue-material.js"></script>
-```
-
-Optionally import Roboto font & Material Icons from Google CDN:
-
-``` html
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons">
-```
-
-## Changelog
-
-<a href="https://github.com/vuematerial/vue-material/releases">Changelog</a>
-
-## Questions
-
-If you have any questions, ideas or you want to discuss with Vue Material community, use [Discord](https://discord.gg/vuematerial) to join us.
-
-## Contributing
-
-Please make sure to read the [Contributing Guide](https://github.com/vuematerial/vue-material/blob/master/.github/CONTRIBUTING.md) before making a pull request.
-
-## Browser Support
-
-Vue Material supports all [modern browsers](http://browserl.ist/?q=%3E%3D+1%25).
-
-<small>May work in other browsers but it's untested.</small>
-
-## Become a part of the Vue Material community
-
-####  This project exists thanks to all the people who contribute
-<a class="contributors-image" href="https://github.com/vuematerial/vue-material/contributors"><img src="https://opencollective.com/vue-material/contributors.svg?width=1500&button=false" /></a>
-
-#### Sponsors & Backers
-
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/vue-material)]
-
-<a href="https://opencollective.com/vue-material#backers" target="_blank"><img src="https://opencollective.com/vue-material/tiers/backer.svg?avatarHeight=90" /></a>
-
-## Credits and Thanks
-
-Vue Material does not run under the umbrella of any company or anything like that. It is an independent project created by <a data-v-9248b2ee="" href="https://www.github.com/marcosmoura" target="_blank">Marcos Moura</a> in his spare time, which has become one of the most used UI Libraries for Vue.js. The development is active and we are working hard to release great things for you.
-
-* <a href="https://github.com/elviskang" target="_blank">elviskang</a> for donating the npm package name!
-* <a href="https://github.com/brunocastro" target="_blank">Bruno Castro</a> for the awesome Vue Material Logo.
-* Supported by <a href="https://www.creative-tim.com/?ref=vuematerial.io" target="_blank">Creative Tim</a>
 
 ## License
 
