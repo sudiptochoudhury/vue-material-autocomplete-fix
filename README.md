@@ -2,7 +2,7 @@
 
 ---
 
-This is an extended version of [vue-material]("https://github.com/vuematerial/).
+This is an extended version of [vue-material](https://github.com/vuematerial/).
 Everything is same as is from `vue-material`.
 
 ## Component: `MdAutocomplete2`
