@@ -4,10 +4,12 @@
 
 This is an extended version of [vue-material]("https://github.com/vuematerial/).
 Everything is same as is from `vue-material`.
+
+## Component: `MdAutocomplete2`
+
 This package adds a new component `MdAutocomplete2` and extended version of
 `MdAutocomplete` with a number of fixes and new features.
 
-## `MdAutocomplete2`
 
 ### New features and fixes
 
