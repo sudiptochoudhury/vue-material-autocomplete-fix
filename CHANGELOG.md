@@ -1,3 +1,11 @@
+<a name="v1.0.0-beta-15.04"></a>
+# [v1.0.0-beta-15.04](https://github.com/sudiptochoudhury/vue-material-autocomplete-fix/compare/v1.0.0-beta-15...v1.0.0-beta-15.04) (2022-06-17)
+### Bug Fixes
+
+* Fix issue with list item not scrolling to view on open or while using keyboard navigation  
+
+
+
 <a name="v1.0.0-beta-15.03"></a>
 # [v1.0.0-beta-15.03](https://github.com/sudiptochoudhury/vue-material-autocomplete-fix/compare/v1.0.0-beta-15...v1.0.0-beta-15.03) (2022-06-12)
 

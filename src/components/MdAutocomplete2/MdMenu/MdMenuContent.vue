@@ -164,17 +164,27 @@
       clearAllHighlights () {
         this.highlightItems.forEach(item => {
           item.highlighted = false
-          //item.parentNode.__vue__.highlighted = false
         })
       },
       setItemHighlight () {
         if (this.highlightedItem) {
           this.highlightedItem.highlighted = true
-          //this.highlightedItem.parentNode.__vue__.highlighted = true
-          if (this.$parent.$parent.setOffsets) {
-            this.$parent.$parent.setOffsets(this.highlightedItem.$el)
-          }
+          this.scrollToSelectedOption(this.highlightedItem)
         }
+      },
+      scrollToSelectedOption (item) {
+        let menu = item.$refs.menu
+        if (!menu) {
+          menu = item.$parent.$el.parentNode
+        }
+        const el = item.$el
+        if (!menu || !el) {
+          return
+        }
+        const top = el.offsetTop
+        const elHeight = el.offsetHeight
+        const menuHeight = menu.offsetHeight
+        menu.scrollTop = top - ((menuHeight - elHeight) / 2)
       },
       setSelection () {
         if (this.getAvailableItemsCount() && this.highlightedItem) {
