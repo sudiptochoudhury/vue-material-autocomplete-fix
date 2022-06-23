@@ -181,13 +181,19 @@
       isPromise (obj) {
         return isPromise(obj)
       },
-      matchText (item) {
+      // eslint-disable-next-line complexity
+      matchText (item, exact) {
         const target = item && item.toLowerCase()
         const search = this.searchTerm && this.searchTerm.toLowerCase()
         if (!target || !search) {
           return false
         }
-
+        if (target === search) {
+          return true
+        }
+        if (exact) {
+          return false
+        }
         if (this.mdFuzzySearch) {
           return fuzzy(search, target)
         }
@@ -296,7 +302,7 @@
       },
       isSelected (item) {
         if (typeof item === 'string') {
-          return this.matchText(item)
+          return this.matchText(item, true)
         } else if (typeof item === 'object') {
           const values = Object.values(item)
           return values.some(part => {

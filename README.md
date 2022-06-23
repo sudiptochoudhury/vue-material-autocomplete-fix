@@ -24,6 +24,10 @@ This package adds a new component `MdAutocomplete2` and extended version of
   * By starting typing in the input field (can be disabled setting `mdOpenOnInput` prop to `false`). 
 * In case the suggestion popup has no result or is empty, a default empty message "No data available" is shown (without defining `md-autocomplete-empty` slot). 
 The value can be modified using `mdEmptyText` prop.
+* When search box opens and if the input field has a value
+  * It will first tries to match the exact value from the input field with search options and highlight it
+  * Otherwise, it highlights the first option from top 
+    * or the first among the searched results  
 
 #### Strict Mode
 
