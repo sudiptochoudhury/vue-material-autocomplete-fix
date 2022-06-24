@@ -6,7 +6,7 @@
 <example src="./examples/AutocompleteAsync.vue" />
 
 <template>
-  <page-container centered :title="$t('pages.autocomplete.title')">
+  <page-container centered :title="$t('pages.autocomplete2.title')">
     <div class="page-container-section">
       <p>Input text can be used with autocomplete to help users who have limited literacy or who write in a foreign language. For example, autocomplete can suggest input as it’s typed (refreshing suggestions with each keystroke).</p>
       <p>Vue Material autocomplete is really simple, yet powerfull. With simple options you can create great suggestions with async feedbacks.</p>

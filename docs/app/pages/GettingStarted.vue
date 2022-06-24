@@ -32,7 +32,7 @@
       <code-example title="Individual components">
         import Vue from 'vue'
         import { MdButton, MdContent, MdTabs } from 'vue-material/dist/components'
-        import 'vue-material/dist/vue-material.min.css'
+        import 'vue-material/dist/vue-material-autocomplete-fix.min.css'
         import 'vue-material/dist/theme/default.css'
 
         Vue.use(MdButton)
@@ -44,7 +44,7 @@
       <code-example title="Full Bundle">
         import Vue from 'vue'
         import VueMaterial from 'vue-material'
-        import 'vue-material/dist/vue-material.min.css'
+        import 'vue-material/dist/vue-material-autocomplete-fix.min.css'
         import 'vue-material/dist/theme/default.css'
 
         Vue.use(VueMaterial)
@@ -60,7 +60,7 @@
             &lt;meta charset="utf-8"&gt;
             &lt;meta content="width=device-width,initial-scale=1,minimal-ui" name="viewport"&gt;
             &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons"&gt;
-          	&lt;link rel="stylesheet" href="https://unpkg.com/vue-material/dist/vue-material.min.css"&gt;
+          	&lt;link rel="stylesheet" href="https://unpkg.com/vue-material/dist/vue-material-autocomplete-fix.min.css"&gt;
           	&lt;link rel="stylesheet" href="https://unpkg.com/vue-material/dist/theme/default.css"&gt;
           &lt;/head&gt;
 

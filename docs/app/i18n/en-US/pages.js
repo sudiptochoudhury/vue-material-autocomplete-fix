@@ -195,6 +195,10 @@ export default {
     title: 'Autocomplete',
     description: 'Input text can be used with autocomplete to help users who have limited literacy or who write in a foreign language.'
   },
+  autocomplete2: {
+    title: 'Autocomplete2',
+    description: 'Extended md-autocomplete.'
+  },
   datepicker: {
     title: 'Datepicker',
     nav: 'Date'
