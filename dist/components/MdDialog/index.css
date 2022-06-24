@@ -1,5 +1,5 @@
 /*!
- * vue-material-autocomplete-fix v1.0.0-beta-15.08
+ * vue-material-autocomplete-fix v1.0.0-beta-15.09
  * Made with <3 by sudiptochoudhury 2022
  * Released under the MIT License.
  */
