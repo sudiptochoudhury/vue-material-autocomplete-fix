@@ -93,6 +93,10 @@
         type: Boolean,
         default: true
       },
+      mdContentClasses: {
+        type: [String, Array, Object],
+        default: () => []
+      },
     },
     data () {
       return {
@@ -114,9 +118,14 @@
         }
       },
       contentClasses () {
+        let classes = [
+          'md-autocomplete-menu-content',
+          this.mdContentClasses
+        ]
         if (this.isBoxLayout) {
-          return 'md-autocomplete-box-content'
+          classes.push('md-autocomplete-box-content')
         }
+        return classes
       },
       shouldFilter () {
         return this.allowFilter && this.mdOptions[0] && this.searchTerm

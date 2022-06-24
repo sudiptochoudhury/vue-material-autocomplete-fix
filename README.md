@@ -10,8 +10,11 @@ Everything is same as is from `vue-material`.
 This package adds a new component `MdAutocomplete2` and extended version of
 `MdAutocomplete` with a number of fixes and new features.
 
-
 ### New features and fixes
+
+## Custom CSS class
+* Use `mdContentClasses` prop to pass a custom class to the container of the search result box.
+Also, a class named `md-autocomplete-menu-content` is always added to the container of the search result box.
 
 #### Better navigation and selection using keyboard
 
@@ -24,10 +27,6 @@ This package adds a new component `MdAutocomplete2` and extended version of
   * By starting typing in the input field (can be disabled setting `mdOpenOnInput` prop to `false`). 
 * In case the suggestion popup has no result or is empty, a default empty message "No data available" is shown (without defining `md-autocomplete-empty` slot). 
 The value can be modified using `mdEmptyText` prop.
-* When search box opens and if the input field has a value
-  * It will first tries to match the exact value from the input field with search options and highlight it
-  * Otherwise, it highlights the first option from top 
-    * or the first among the searched results  
 
 #### Strict Mode
 
@@ -38,16 +37,19 @@ it will be cleaned pressing `Enter` or `Tab`. This mode can be disabled setting 
 * By default, when the suggestion popup opens and there is already a value in the input field, the suggestion result for once, does not  
 filter based on the input field's value. It shows all the values. The filtering starts in case the input value changes. 
 This can be disabled using `mdSkipFilterOnOpen` prop to `false`.
+* When `mdSkipFilterOnOpen` is `true` and search box opens and if the input field already has a value, tt will 
+first try to match the exact value from the input field with search options and highlight it.
 
 
 ### New props
 
-| Name                  | Type    | Default             | Description                                                                                                                                                      |
-|-----------------------|---------|---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `mdEmptyText`         | String  | "No data available" | Shows this message as default when there is no/empty suggested result.                                                                                           |
-| `mdCleanEmptyOnEnter` | Boolean | true                | When the suggested result is empty, and Enter is pressed, the input field is cleaned. This can be disabled setting the value to `false`.                         |
-| `mdOpenOnInput`       | Boolean | true                | This adds additional feature along with `mdOpenOnFocus`. It allows to open the suggested results popup, in case it's closed when typing in the input box starts. |
-| `mdSkipFilterOnOpen`  | Boolean | true                | This allows to show all the suggested items in the popup when the suggested popup is open again.                                                                 |
+| Name                   | Type                      | Default           | Description                                                                                                                                                  |
+|------------------------|---------------------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `mdEmptyText`          | String                    | "No data available" | Shows this message as default when there is no/empty suggested result.                                                                                       |
+| `mdCleanEmptyOnEnter`  | Boolean                   | true              | When the suggested result is empty, and Enter is pressed, the input field is cleaned. This can be disabled setting the value to `false`.                     |
+| `mdOpenOnInput`        | Boolean                   | true              | This adds additional feature along with `mdOpenOnFocus`. It allows to open the suggested results popup, in case it's closed when typing in the input box starts. |
+| `mdSkipFilterOnOpen`   | Boolean                   | true              | This allows to show all the suggested items in the popup when the suggested popup is open again.                                                             |
+| `mdContentClasses`     | String or Array or Object | ''                | This allow to add a custom css class to the search box                                                                                                       |
 
 
 ## Installation and Usage

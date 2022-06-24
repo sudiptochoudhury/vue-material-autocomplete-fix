@@ -1,5 +1,5 @@
 /*!
- * vue-material-autocomplete-fix v1.0.0-beta-15.07
+ * vue-material-autocomplete-fix v1.0.0-beta-15.08
  * Made with <3 by sudiptochoudhury 2022
  * Released under the MIT License.
  */
@@ -3679,6 +3679,12 @@ exports.default = {
     mdSkipFilterOnOpen: {
       type: Boolean,
       default: true
+    },
+    mdContentClasses: {
+      type: [String, Array, Object],
+      default: function _default() {
+        return [];
+      }
     }
   },
   data: function data() {
@@ -3702,9 +3708,11 @@ exports.default = {
       }
     },
     contentClasses: function contentClasses() {
+      var classes = ['md-autocomplete-menu-content', this.mdContentClasses];
       if (this.isBoxLayout) {
-        return 'md-autocomplete-box-content';
+        classes.push('md-autocomplete-box-content');
       }
+      return classes;
     },
     shouldFilter: function shouldFilter() {
       return this.allowFilter && this.mdOptions[0] && this.searchTerm;
@@ -4283,7 +4291,6 @@ exports.default = new _MdComponent2.default({
         menu = item.$parent.$el.parentNode;
       }
       var el = item.$el;
-      console.log({ scrollToSelectedOption: item, menu: menu, el: el });
       if (!menu || !el) {
         return;
       }
@@ -4291,7 +4298,6 @@ exports.default = new _MdComponent2.default({
       var elHeight = el.offsetHeight;
       var menuHeight = menu.offsetHeight;
       menu.scrollTop = top - (menuHeight - elHeight) / 2;
-      console.log({ scrollToSelectedOptionTOP: top, elHeight: elHeight, menuHeight: menuHeight });
     },
     setSelection: function setSelection() {
       if (this.getAvailableItemsCount() && this.highlightedItem) {

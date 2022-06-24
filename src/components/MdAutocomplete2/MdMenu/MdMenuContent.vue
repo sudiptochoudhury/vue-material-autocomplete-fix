@@ -178,7 +178,6 @@
           menu = item.$parent.$el.parentNode
         }
         const el = item.$el
-        console.log({scrollToSelectedOption: item, menu, el})
         if (!menu || !el) {
           return
         }
@@ -186,7 +185,6 @@
         const elHeight = el.offsetHeight
         const menuHeight = menu.offsetHeight
         menu.scrollTop = top - ((menuHeight - elHeight) / 2)
-        console.log({scrollToSelectedOptionTOP: top, elHeight, menuHeight})
       },
       setSelection () {
         if (this.getAvailableItemsCount() && this.highlightedItem) {
