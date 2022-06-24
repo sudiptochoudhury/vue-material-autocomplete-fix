@@ -1,5 +1,12 @@
+<a name="v1.0.0-beta-15.09"></a>
+# [v1.0.0-beta-15.09](https://github.com/sudiptochoudhury/vue-material-autocomplete-fix/compare/v1.0.0-beta-15...v1.0.0-beta-15.09) (2022-06-24)
+### Feature
+
+* Add `mdStrict` prop to allow value only which are present in the options list.    
+
+
 <a name="v1.0.0-beta-15.08"></a>
-# [v1.0.0-beta-15.08](https://github.com/sudiptochoudhury/vue-material-autocomplete-fix/compare/v1.0.0-beta-15...v1.0.0-beta-15.09) (2022-06-24)
+# [v1.0.0-beta-15.08](https://github.com/sudiptochoudhury/vue-material-autocomplete-fix/compare/v1.0.0-beta-15...v1.0.0-beta-15.08) (2022-06-24)
 ### Feature
 
 * Use `mdContentClasses` prop to pass a custom class to the container of the search result box. 

@@ -8,8 +8,8 @@
         :name="mdInputName"
         :maxlength="mdInputMaxlength"
         :placeholder="mdInputPlaceholder"
-        @focus.stop="openOnFocus"
-        @blur="hideOptions"
+        @focus.stop="onFocus"
+        @blur="onBlur"
         @keyup="onKeyPress"
         @input="onInput"
         @click.stop.prevent="openOnFocus" />
@@ -97,6 +97,10 @@
         type: [String, Array, Object],
         default: () => []
       },
+      mdStrict: {
+        type: Boolean,
+        default: true
+      }
     },
     data () {
       return {
@@ -155,6 +159,9 @@
       }
     },
     watch: {
+      searchTerm (value, oldValue) {
+        this.revertOnNoResult(value, oldValue)
+      },
       mdOptions: {
         deep: true,
         immediate: true,
@@ -228,6 +235,14 @@
         if (this.mdOpenOnFocus) {
           this.showOptions()
         }
+      },
+      onFocus () {
+        this.cleanOnNoStrictMatch()
+        this.openOnFocus()
+      },
+      onBlur () {
+        this.cleanOnNoStrictMatch()
+        this.hideOptions()
       },
       onInput (value) {
         this.$emit('input', value)
@@ -317,6 +332,33 @@
           return values.some(part => {
             return this.isSelected(part)
           })
+        }
+      },
+      revertOnNoResult (value, oldValue = '', force) {
+        if (force || this.mdStrict) {
+          value = value || this.searchTerm
+          const hasMatch = this.hasFilteredItems
+          if (value && !hasMatch) {
+            this.$nextTick(() => {
+              this.searchTerm = oldValue
+            })
+          }
+        }
+      },
+      cleanOnNoStrictMatch (value, oldValue = '', force) {
+        if (force || this.mdStrict) {
+          value = value || this.searchTerm
+          if (value) {
+            const options = this.getOptions()
+            const hasMatch = options.some(item => {
+              return (value || '').toLowerCase() === (item || '').toLowerCase()
+            })
+            if (!hasMatch) {
+              this.$nextTick(() => {
+                this.searchTerm = oldValue
+              })
+            }
+          }
         }
       }
     }

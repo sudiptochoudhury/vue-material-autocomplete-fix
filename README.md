@@ -32,6 +32,9 @@ The value can be modified using `mdEmptyText` prop.
 
 * In case the suggestion popup has no result or is empty, but the input field has a value in it, which may not be the desired input value, 
 it will be cleaned pressing `Enter` or `Tab`. This mode can be disabled setting `mdCleanEmptyOnEnter` prop to `false`.
+* `mdStrict` prop allows a value which is present in the options list. The input field's value, when a match is not found 
+will be cleaned on focus or blur. While typing, text field characters will be restricted to combination of 
+characters for which at-least one result is found. To disable this set `mdString` to `false`.  
 
 #### Show all results at first
 * By default, when the suggestion popup opens and there is already a value in the input field, the suggestion result for once, does not  
@@ -43,13 +46,14 @@ first try to match the exact value from the input field with search options and 
 
 ### New props
 
-| Name                   | Type                      | Default           | Description                                                                                                                                                  |
-|------------------------|---------------------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `mdEmptyText`          | String                    | "No data available" | Shows this message as default when there is no/empty suggested result.                                                                                       |
-| `mdCleanEmptyOnEnter`  | Boolean                   | true              | When the suggested result is empty, and Enter is pressed, the input field is cleaned. This can be disabled setting the value to `false`.                     |
-| `mdOpenOnInput`        | Boolean                   | true              | This adds additional feature along with `mdOpenOnFocus`. It allows to open the suggested results popup, in case it's closed when typing in the input box starts. |
-| `mdSkipFilterOnOpen`   | Boolean                   | true              | This allows to show all the suggested items in the popup when the suggested popup is open again.                                                             |
-| `mdContentClasses`     | String or Array or Object | ''                | This allow to add a custom css class to the search box                                                                                                       |
+| Name                  | Type                      | Default           | Description                                                                                                                                                      |
+|-----------------------|---------------------------|-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `mdEmptyText`         | String                    | "No data available" | Shows this message as default when there is no/empty suggested result.                                                                                         |
+| `mdCleanEmptyOnEnter` | Boolean                   | true              | When the suggested result is empty, and Enter is pressed, the input field is cleaned. This can be disabled setting the value to `false`.                         |
+| `mdOpenOnInput`       | Boolean                   | true              | This adds additional feature along with `mdOpenOnFocus`. It allows to open the suggested results popup, in case it's closed when typing in the input box starts. |
+| `mdSkipFilterOnOpen`  | Boolean                   | true              | This allows to show all the suggested items in the popup when the suggested popup is open again.                                                                 |
+| `mdContentClasses`    | String or Array or Object | ''                | This allows to add a custom css class to the search box.                                                                                                         |
+| `mdStrict`            | Boolean                   | true              | Use strict mode. Value in the input field must match one of the values in options.                                                                               |
 
 
 ## Installation and Usage
