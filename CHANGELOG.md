@@ -1,3 +1,10 @@
+<a name="v1.0.0-beta-15.07"></a>
+# [v1.0.0-beta-15.07](https://github.com/sudiptochoudhury/vue-material-autocomplete-fix/compare/v1.0.0-beta-15...v1.0.0-beta-15.07) (2022-06-24)
+### Bug Fixes
+
+* Include dist build  
+
+
 <a name="v1.0.0-beta-15.06"></a>
 # [v1.0.0-beta-15.06](https://github.com/sudiptochoudhury/vue-material-autocomplete-fix/compare/v1.0.0-beta-15...v1.0.0-beta-15.06) (2022-06-24)
 ### Bug Fixes

@@ -1,5 +1,5 @@
 /*!
- * vue-material-autocomplete-fix v1.0.0-beta-15.03
+ * vue-material-autocomplete-fix v1.0.0-beta-15.07
  * Made with <3 by sudiptochoudhury 2022
  * Released under the MIT License.
  */
@@ -3770,13 +3770,20 @@ exports.default = {
     isPromise: function isPromise(obj) {
       return (0, _isPromise3.default)(obj);
     },
-    matchText: function matchText(item) {
+
+    // eslint-disable-next-line complexity
+    matchText: function matchText(item, exact) {
       var target = item && item.toLowerCase();
       var search = this.searchTerm && this.searchTerm.toLowerCase();
       if (!target || !search) {
         return false;
       }
-
+      if (target === search) {
+        return true;
+      }
+      if (exact) {
+        return false;
+      }
       if (this.mdFuzzySearch) {
         return (0, _fuzzysearch2.default)(search, target);
       }
@@ -3895,7 +3902,7 @@ exports.default = {
       var _this7 = this;
 
       if (typeof item === 'string') {
-        return this.matchText(item);
+        return this.matchText(item, true);
       } else if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) === 'object') {
         var values = Object.values(item);
         return values.some(function (part) {
@@ -4262,17 +4269,29 @@ exports.default = new _MdComponent2.default({
     clearAllHighlights: function clearAllHighlights() {
       this.highlightItems.forEach(function (item) {
         item.highlighted = false;
-        //item.parentNode.__vue__.highlighted = false
       });
     },
     setItemHighlight: function setItemHighlight() {
       if (this.highlightedItem) {
         this.highlightedItem.highlighted = true;
-        //this.highlightedItem.parentNode.__vue__.highlighted = true
-        if (this.$parent.$parent.setOffsets) {
-          this.$parent.$parent.setOffsets(this.highlightedItem.$el);
-        }
+        this.scrollToSelectedOption(this.highlightedItem);
       }
+    },
+    scrollToSelectedOption: function scrollToSelectedOption(item) {
+      var menu = item.$refs.menu;
+      if (!menu) {
+        menu = item.$parent.$el.parentNode;
+      }
+      var el = item.$el;
+      console.log({ scrollToSelectedOption: item, menu: menu, el: el });
+      if (!menu || !el) {
+        return;
+      }
+      var top = el.offsetTop;
+      var elHeight = el.offsetHeight;
+      var menuHeight = menu.offsetHeight;
+      menu.scrollTop = top - (menuHeight - elHeight) / 2;
+      console.log({ scrollToSelectedOptionTOP: top, elHeight: elHeight, menuHeight: menuHeight });
     },
     setSelection: function setSelection() {
       if (this.getAvailableItemsCount() && this.highlightedItem) {
