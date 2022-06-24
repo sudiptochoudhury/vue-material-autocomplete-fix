@@ -3685,6 +3685,10 @@ exports.default = {
       default: function _default() {
         return [];
       }
+    },
+    mdStrict: {
+      type: Boolean,
+      default: true
     }
   },
   data: function data() {
@@ -3742,6 +3746,10 @@ exports.default = {
     }
   },
   watch: {
+    searchTerm: function searchTerm(value, oldValue) {
+      this.revertOnNoResult(value, oldValue);
+    },
+
     mdOptions: {
       deep: true,
       immediate: true,
@@ -3823,6 +3831,14 @@ exports.default = {
       if (this.mdOpenOnFocus) {
         this.showOptions();
       }
+    },
+    onFocus: function onFocus() {
+      this.cleanOnNoStrictMatch();
+      this.openOnFocus();
+    },
+    onBlur: function onBlur() {
+      this.cleanOnNoStrictMatch();
+      this.hideOptions();
     },
     onInput: function onInput(value) {
       this.$emit('input', value);
@@ -3916,6 +3932,43 @@ exports.default = {
         return values.some(function (part) {
           return _this7.isSelected(part);
         });
+      }
+    },
+    revertOnNoResult: function revertOnNoResult(value) {
+      var _this8 = this;
+
+      var oldValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+      var force = arguments[2];
+
+      if (force || this.mdStrict) {
+        value = value || this.searchTerm;
+        var hasMatch = this.hasFilteredItems;
+        if (value && !hasMatch) {
+          this.$nextTick(function () {
+            _this8.searchTerm = oldValue;
+          });
+        }
+      }
+    },
+    cleanOnNoStrictMatch: function cleanOnNoStrictMatch(value) {
+      var _this9 = this;
+
+      var oldValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+      var force = arguments[2];
+
+      if (force || this.mdStrict) {
+        value = value || this.searchTerm;
+        if (value) {
+          var options = this.getOptions();
+          var hasMatch = options.some(function (item) {
+            return (value || '').toLowerCase() === (item || '').toLowerCase();
+          });
+          if (!hasMatch) {
+            this.$nextTick(function () {
+              _this9.searchTerm = oldValue;
+            });
+          }
+        }
       }
     }
   }
@@ -17659,9 +17712,9 @@ var render = function() {
                 on: {
                   focus: function($event) {
                     $event.stopPropagation()
-                    return _vm.openOnFocus($event)
+                    return _vm.onFocus($event)
                   },
-                  blur: _vm.hideOptions,
+                  blur: _vm.onBlur,
                   keyup: _vm.onKeyPress,
                   input: _vm.onInput,
                   click: function($event) {
